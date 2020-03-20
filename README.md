@@ -1,3 +1,3 @@
 # hello-world
-För lärare
+För lärare:
 Daniel Dascola
