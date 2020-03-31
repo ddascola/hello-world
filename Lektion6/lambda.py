@@ -10,13 +10,13 @@ def input_1():
     list_a = [number_1, number_2, op] #sparar number_1 number_2 och op i en lista
     return list_a #returnerar list_a
 
-x = input_1() #sparar outputen från  input_1() i variabeln x
+input_1_output = input_1() #sparar outputen från  input_1() i variabeln x
 
 
 def print_lambda(v1, v2, lambda_f): #definierar funktion som tar 3 argument
     print(f"{v1} och {v2} ger: {lambda_f(v1, v2)}") #resultatet av 'v1' och 'v2' blir 'lambda_f(v1, v2)'
 
-print_lambda(x[0], x[1], x[2]) #kallar på funktionen 'print_lambda' och skickar med argumenten som ligger i variabeln x
+print_lambda(input_1_output[0], input_1_output[1], input_1_output[2]) #kallar på funktionen 'print_lambda' och skickar med argumenten som ligger i variabeln x
 
 
     
