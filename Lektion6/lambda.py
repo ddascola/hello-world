@@ -1,11 +1,11 @@
 import operator
 
-operatorlookup = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}
+operatorlookup = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv, '%': operator.mod}
 
 def input_1():
     number_1 = int(input("Enter first number: "))
     number_2 = int(input("Enter second number: "))
-    arithmetic = input("Choose arithmetic (+, -, /, *): ")
+    arithmetic = input("Choose arithmetic (+, -, /, *, %): ")
     op = operatorlookup.get(arithmetic)
     list_a = [number_1, number_2, op]
     return list_a
