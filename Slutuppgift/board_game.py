@@ -3,12 +3,12 @@ import json
 import numpy as np
 import pandas as pd
 import csv
-class Game:
+class Game(dict):
     def __init__ (self, title, players, duration, age):
-        self.title = title.title()
-        self.players = players
-        self.duration = duration
-        self.age = age
+        self['title'] = title.title()
+        self['players'] = players
+        self['duration'] = duration
+        self['age'] = age
     
     def set_title(self, title):
         self.title = title.title()
@@ -26,20 +26,19 @@ class Game:
         return "Game title:% s players:% s duration:% s age:% s" % (self.title, self.players, self.duration, self.age)
 
 
-class Game_cabinet:
+class Game_cabinet(dict):
     def __init__(self):
         self.game_list = []
-        self.game_dict = {}
+        #self.game_dict = {}
+        
 
 
     def add_game(self, title, players, duration, age):
         temp_game = Game(title, int(players), int(duration), int(age))
         #self.game_list.append(temp_game)
-        self.game_dict["Title"] = title
-        self.game_dict["Players"] = players
-        self.game_dict["Duration"] = duration
-        self.game_dict["Age"] = age
-        cabinet.game_list.append(cabinet.game_dict)
+        self[title] = temp_game
+        #cabinet.game_list.append(cabinet)
+        
         #with open('boardgamee.json', 'a') as list_of_games:
             #json.dump(cabinet.game_dict, list_of_games)
 
@@ -75,10 +74,10 @@ while choice != 6:
             print(f"Title: {game.title}, Players: {game.players}, Duration: {game.duration}, Age: {game.age}")
 
     elif choice == 3:
-        with open('boardgamee.json', 'w+') as list_of_games:
-            boardgame_dict = json.load(list_of_games)
-            boardgame_dict.append(cabinet.game_dict)
-            json.dump(boardgame_dict, list_of_games)
+        with open('boardgamee.json', 'a') as list_of_games:
+            #boardgame_dict = json.load(list_of_games)
+            #boardgame_dict.append(cabinet)
+            json.dump(cabinet, list_of_games)
 
 
     elif choice == 4:
