@@ -11,7 +11,7 @@ class Game:
         self.age = age
     
     def set_title(self, title):
-        self.title = title
+        self.title = title.title()
     
     def set_players(self, players):
         self.players = players
@@ -29,11 +29,19 @@ class Game:
 class Game_cabinet:
     def __init__(self):
         self.game_list = []
+        self.game_dict = {}
 
 
     def add_game(self, title, players, duration, age):
         temp_game = Game(title, int(players), int(duration), int(age))
-        self.game_list.append(temp_game)
+        #self.game_list.append(temp_game)
+        self.game_dict["Title"] = title
+        self.game_dict["Players"] = players
+        self.game_dict["Duration"] = duration
+        self.game_dict["Age"] = age
+        cabinet.game_list.append(cabinet.game_dict)
+        #with open('boardgamee.json', 'a') as list_of_games:
+            #json.dump(cabinet.game_dict, list_of_games)
 
     def remove_game(self, title):
         for i, game in enumerate(self.game_list):
@@ -63,22 +71,21 @@ while choice != 6:
         
         
     elif choice == 2:
-        for game in cabinet.game_list:
+        for game in cabinet.game_dict:
             print(f"Title: {game.title}, Players: {game.players}, Duration: {game.duration}, Age: {game.age}")
 
     elif choice == 3:
-        with open('boardgame.csv', 'a', newline = "") as list_of_games:
-            wr = csv.writer(list_of_games, quoting = csv.QUOTE_NONE)
-            wr.writerow(cabinet.game_list)
+        with open('boardgamee.json', 'w+') as list_of_games:
+            boardgame_dict = json.load(list_of_games)
+            boardgame_dict.append(cabinet.game_dict)
+            json.dump(boardgame_dict, list_of_games)
+
 
     elif choice == 4:
-        with open('boardgame.csv', newline= "") as list_of_games:
-            complete_list = list(csv.reader(list_of_games))
-            game_array = np.array(complete_list)
-            #dataset = pd.DataFrame({"Title": game_array[:, 0], "Players": game_array[:,1], "Duration": game_array[:, 2], "Age": game_array[:, 3]})
-            #print(game_array)
-            #print(*complete_list, sep="\n")
-            print(complete_list)
+        with open('boardgamee.json', 'r') as list_of_games:
+            boardgame_dict = json.load(list_of_games)
+            print(boardgame_dict)
+        
 
     elif choice == 5:
         with open('boardgame.csv', newline= "") as list_of_games:
@@ -86,44 +93,15 @@ while choice != 6:
             cabinet.game_list.extend(complete_list)
             title = str(input("Which game would you like to delete? "))
             title = title.title()
-            cabinet.game_list.remove(title)
+            remove_game(title)
         with open('boardgame.csv', 'w', newline = "") as list_of_games:
             wr = csv.writer(list_of_games, quoting = csv.QUOTE_NONE)
             wr.writerow(cabinet.game_list)
             
 
 
-#print(cabinet.game_list)
-#write = (f"Title: {game.title}, Players: {game.players}, Duration: {game.duration}, Age: {game.age}")
-#print(write)
-
-
-
-#my_cabinet = Game_cabinet()
-#game_menu(my_cabinet)
-
-
-
-
-
-
-
-
-
-
-
-'''storage = Cabinet()
-storage.add_game("Monopol", int(5), int(75), int(12))
-game_1 = Game("Ticket", 6, 75, 12)
-game_2 = Game("King of Tokyo", 4, 30, 12)
-game_3 = Game("Catan", 5, 60, 13)
-list_a = []
-list_a.append(game_1)
-list_a.append(game_2)
-list_a.append(game_3)
-#print([new_game])
-#print(storage.game_list)
-print(list_a)'''
+print(cabinet.game_dict)
+print(cabinet.game_list)
 
 
 
