@@ -19,13 +19,13 @@ class Game_cabinet(dict):
         self[title] = temp_game
 
 def add_a_game():
-    print("Please enter title, amount of players, duration in minutes and minimum age for the game")
-    title = input("Title: ")
-    min_players = int(input("Minimum amount of players: "))
-    max_players = int(input("Maximum amount of players: "))
-    min_duration = int(input("Minimum duration of game in minutes: "))
-    max_duration = int(input("Maximum duration of game in minutes: "))
-    age = int(input("Minimum age for the game: "))
+    print('Please enter title, amount of players, duration in minutes and minimum age for the game')
+    title = input('Title: ')
+    min_players = int(input('Minimum amount of players: '))
+    max_players = int(input('Maximum amount of players: '))
+    min_duration = int(input('Minimum duration of game in minutes: '))
+    max_duration = int(input('Maximum duration of game in minutes: '))
+    age = int(input('Minimum age for the game: '))
 
     cabinet.add_game(title, min_players, max_players, min_duration, max_duration, age)
 
@@ -52,11 +52,11 @@ def change_game():
 def remove_game():
     with open('boardgame.json', 'r') as list_of_games:
         boardgame_dict = json.load(list_of_games)
-        game_id = str(input("Which game do you want to remove? "))
+        game_id = str(input('Which game do you want to remove? '))
         del boardgame_dict[game_id]
     with open('boardgame.json', 'w') as list_of_games:
         json.dump(boardgame_dict, list_of_games)
-        print(game_id.title(), "was successfully removed")
+        print(game_id.title(), 'was successfully removed')
 
 def filter_game():
     with open('boardgame.json', 'r') as list_of_games:
@@ -66,8 +66,12 @@ def filter_game():
         boardgame_df[['min_players', 'max_players', 'min_duration', 'max_duration', 'age']] = boardgame_df[['min_players', 'max_players', 'min_duration', 'max_duration', 'age']].apply(pd.to_numeric)
         inp_players = int(input('How many players are you? '))
         inp_duration = int(input('Estimate how much time you can spare, answer in minutes: '))
-        inp_age = int(input("How old is the youngest player in your group? "))
-        print(boardgame_df[(boardgame_df.min_players <= inp_players) & (boardgame_df.max_players >= inp_players) & (boardgame_df.min_duration <= inp_duration) & (boardgame_df.max_duration >= inp_duration) & (boardgame_df.age <= inp_age)])
+        inp_age = int(input('How old is the youngest player in your group? '))
+        matches_df = boardgame_df[(boardgame_df.min_players <= inp_players) & (boardgame_df.max_players >= inp_players) & (boardgame_df.min_duration <= inp_duration) & (boardgame_df.max_duration >= inp_duration) & (boardgame_df.age <= inp_age)]
+        if matches_df.empty == True:
+            print('No games matching the criteria')
+        else:
+            print(matches_df)
 
 def save_game():
     with open('boardgame.json', 'r') as list_of_games:
@@ -79,7 +83,7 @@ def save_game():
 cabinet = Game_cabinet()
 choice = 0
 while choice != 8:
-    choice = int(input("1.Add new game\n2.Save your newly added games\n3.Show list of games from file\n4.Make changes to a game\n5.Remove a game\n6.Search for a suitable game\n7.Exit program\nMake your choice: "))
+    choice = int(input('1.Add new game\n2.Save your newly added games\n3.Show list of games from file\n4.Make changes to a game\n5.Remove a game\n6.Search for a suitable game\n7.Exit program\nMake your choice: '))
     if choice == 1:
         add_a_game()
         
