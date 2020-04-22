@@ -15,52 +15,34 @@ class Game_cabinet(dict):
         temp_game = Game(title, int(min_players), int(max_players),int(min_duration), int(max_duration), int(age))
         self[title] = temp_game
 
-def printer():
-    print('Please enter a number')
+def user_input(message):
+    while True:
+        try:
+            global input_value
+            input_value = int(input(message))
+        except ValueError:
+            print('Please enter a number')
+            continue
+        else:
+            break
 
 def add_a_game():
     print('Please enter title, amount of players, duration in minutes and minimum age for the game')
     title = input('Title: ')
-    while True:
-        try:
-            min_players = int(input('Minimum amount of players'))
-        except ValueError:
-            printer()
-            continue
-        else:
-            break
-    while True:
-        try:
-            max_players = int(input('Maximum amount of players: '))
-        except ValueError:
-            printer()
-            continue
-        else:
-            break
-    while True:
-        try:   
-            min_duration = int(input('Minimum duration of game in minutes: '))
-        except ValueError:
-            printer()
-            continue
-        else:
-            break
-    while True:
-        try:
-            max_duration = int(input('Maximum duration of game in minutes: '))
-        except ValueError:
-            printer()
-            continue
-        else:
-            break
-    while True:
-        try:
-            age = int(input('Minimum age for the game: '))
-        except ValueError:
-            printer()
-            continue
-        else:
-            break
+    user_input('Minimum amount of players: ')
+    min_players = input_value
+    
+    user_input('Maximum amount of players: ')
+    max_players = input_value
+
+    user_input('Minimum duration of game in minutes: ')
+    min_duration = input_value
+
+    user_input('Maximum duration of game in minutes: ')
+    max_duration = input_value
+    
+    user_input('Minimum age for the game: ')
+    age = input_value
 
     cabinet.add_game(title, min_players, max_players, min_duration, max_duration, age)
 
@@ -88,6 +70,7 @@ def remove_game():
     with open('boardgame.json', 'r') as list_of_games:
         boardgame_dict = json.load(list_of_games)
         game_id = str(input('Which game do you want to remove? '))
+        game_id = game_id.lower()
         del boardgame_dict[game_id]
     with open('boardgame.json', 'w') as list_of_games:
         json.dump(boardgame_dict, list_of_games)
@@ -99,30 +82,16 @@ def filter_game():
         boardgame_df = pd.DataFrame(boardgame_dict)
         boardgame_df = boardgame_df.T
         boardgame_df[['min_players', 'max_players', 'min_duration', 'max_duration', 'age']] = boardgame_df[['min_players', 'max_players', 'min_duration', 'max_duration', 'age']].apply(pd.to_numeric)
-        while True:
-            try:
-                inp_players = int(input('How many players are you? '))
-            except ValueError:
-                printer()
-                continue
-            else:
-                break
-        while True:
-            try:
-                inp_duration = int(input('Estimate how much time you can spare, answer in minutes: '))
-            except ValueError:
-                printer()
-                continue
-            else:
-                break
-        while True:
-            try:
-                inp_age = int(input('How old is the youngest player in your group? '))
-            except ValueError:
-                printer()
-                continue
-            else:
-                break
+        
+        user_input('How many players are you? ')
+        inp_players = input_value
+        
+        user_input('Estimate how much time you can spare, answer in minutes: ')
+        inp_duration = input_value
+        
+        user_input('How old is the youngest player in your group? ')
+        inp_age = input_value
+        
         matches_df = boardgame_df[(boardgame_df.min_players <= inp_players) & (boardgame_df.max_players >= inp_players) & (boardgame_df.min_duration <= inp_duration) & (boardgame_df.max_duration >= inp_duration) & (boardgame_df.age <= inp_age)]
         if matches_df.empty == True:
             print('No games matching the criteria')
@@ -138,15 +107,9 @@ def save_game():
 
 cabinet = Game_cabinet()
 choice = 0
-while choice != 8:
-    while True:
-        try:
-            choice = int(input('1.Add new game\n2.Save your newly added games\n3.Show list of games from file\n4.Make changes to a game\n5.Remove a game\n6.Search for a suitable game\n7.Exit program\nMake your choice: '))
-        except ValueError:
-            printer()
-            continue
-        else:
-            break
+while choice != None:
+    user_input('1.Add new game\n2.Save your newly added games\n3.Show list of games from file\n4.Make changes to a game\n5.Remove a game\n6.Search for a suitable game\n7.Exit program\nMake your choice: ')
+    choice = input_value
     if choice == 1:
         add_a_game()
         
